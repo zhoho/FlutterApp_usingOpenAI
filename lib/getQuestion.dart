@@ -253,7 +253,7 @@ class _GetQuestionState extends State<GetQuestion> {
                                   ? '혼자'
                                   : '';
                   String prompt =
-                      "I'm going on a trip. You are my tour guide. The travel period I want to go is a total of $duration days. I want to go to $country. The following are the considerations. 1. I personally like $travelStyle 2. I will travel $partner 3. My budget is $budget Based on this, answer the following questions. Please recommend a schedule for each $_isDaySelected, indicate the cost of each activity, Acommodation (Travel plans should be formulated in accordance with the budget as much as possible and should not exceed the budget.";
+                      "I'm going on a trip. You are my tour guide. The travel period I want to go is a total of $duration days. I want to go to $country. The following are the considerations. 1. I personally like $travelStyle 2. I will travel $partner 3. My budget is $budget won Based on this, answer the following questions. Please recommend a schedule for each $_isDaySelected, indicate the cost of each activity, Acommodation (Travel plans should be formulated in accordance with the budget as much as possible and should not exceed the budget.";
                   Navigator.of(context).push(
                     MaterialPageRoute(
                       builder: (context) => ResultPage(prompt),

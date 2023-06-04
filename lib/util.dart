@@ -1,6 +1,9 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:dio/dio.dart';
+
+final dio = Dio();
 
 final openaikey = dotenv.env['openaiapiKey'];
 const apiUrl = 'https://api.openai.com/v1/engines/text-davinci-003/completions';
@@ -24,7 +27,7 @@ Future<String> getGPTanswer(String prompt) async {
     body: jsonEncode({
       //"model": "text-davinci-003",
       'prompt': prompt,
-      'max_tokens': 3000,
+      'max_tokens': 5000,
       'temperature': 0,
       'top_p': 1,
       // 'frequency_penalty': 0,
@@ -54,7 +57,8 @@ Future<String> getTranslation_papago(String prompt, int option) async {
     headers: {
       'Content-Type': contentType,
       'X-Naver-Client-Id': clientId,
-      'X-Naver-Client-Secret': clientSecret
+      'X-Naver-Client-Secret': clientSecret,
+      'Access-Control-Allow-Origin': '*', // CORS 허용
     },
     body: {
       'source': option == 1 ? "ko" : "en", //위에서 언어 판별 함수에서 사용한 language 변수

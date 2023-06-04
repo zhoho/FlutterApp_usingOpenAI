@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:fun_ai/main.dart';
 import 'package:fun_ai/util.dart';
 
 class ResultPage extends StatefulWidget {
