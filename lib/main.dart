@@ -245,6 +245,61 @@ class _GetQuestionState extends State<GetQuestion> {
                 const Text('재밌게'),
               ],
             ),
+            const Text(
+              "여행 동반자",
+              style: TextStyle(fontSize: 16),
+            ),
+            Row(
+              children: [
+                Checkbox(
+                  value: _natureStyleSelected,
+                  onChanged: (value) {
+                    setState(() {
+                      _natureStyleSelected = value ?? false;
+                      if (_natureStyleSelected) {
+                        _busyStyleSelected = false;
+                        _funStyleSelected = false;
+                      }
+                    });
+                  },
+                ),
+                const Text('자연'),
+              ],
+            ),
+            Row(
+              children: [
+                Checkbox(
+                  value: _busyStyleSelected,
+                  onChanged: (value) {
+                    setState(() {
+                      _busyStyleSelected = value ?? false;
+                      if (_busyStyleSelected) {
+                        _natureStyleSelected = false;
+                        _funStyleSelected = false;
+                      }
+                    });
+                  },
+                ),
+                const Text('바쁘게'),
+              ],
+            ),
+            Row(
+              children: [
+                Checkbox(
+                  value: _funStyleSelected,
+                  onChanged: (value) {
+                    setState(() {
+                      _funStyleSelected = value ?? false;
+                      if (_funStyleSelected) {
+                        _natureStyleSelected = false;
+                        _busyStyleSelected = false;
+                      }
+                    });
+                  },
+                ),
+                const Text('재밌게'),
+              ],
+            ),
             const SizedBox(height: 24),
             ElevatedButton(
               onPressed: () {
@@ -260,7 +315,7 @@ class _GetQuestionState extends State<GetQuestion> {
                             ? '재밌게'
                             : '';
                 String prompt =
-                    "I'm going on a trip. You are my tour guide. The travel period I want to go is a total of $duration days. I want to go to $country. The following are the considerations. 1. I personally like Concept 2. I will travel Partner 3. My budget is budget Based on this, answer the following questions. Please recommend a schedule for each DayorHour, indicate the cost of each activity, Acommodation (Travel plans should be formulated in accordance with the budget as much as possible and should not exceed the budget.";
+                    "I'm going on a trip. You are my tour guide. The travel period I want to go is a total of $duration days. I want to go to $country. The following are the considerations. 1. I personally like $travelStyle 2. I will travel $Partner 3. My budget is $budget Based on this, answer the following questions. Please recommend a schedule for each Day or Hour, indicate the cost of each activity, Acommodation (Travel plans should be formulated in accordance with the budget as much as possible and should not exceed the budget.";
                 Navigator.of(context).push(
                   MaterialPageRoute(
                     builder: (context) => ResultPage(prompt),
@@ -342,5 +397,56 @@ class _ResultPageState extends State<ResultPage> {
         ),
       ),
     );
+  }
+}
+
+Future<void> getLanguage_papago() async {
+  String clientId = "XmTlLucY96Uw2pp4rj8q";
+  String clientSecret = "9r2hYCiRF5";
+  String contentType = "application/x-www-form-urlencoded; charset=UTF-8";
+  String url = "https://openapi.naver.com/v1/papago/detectLangs";
+
+  http.Response lan = await http.post(Uri.parse(url), headers: {
+    // 'query': text,
+    'Content-Type': contentType,
+    'X-Naver-Client-Id': clientId,
+    'X-Naver-Client-Secret': clientSecret
+  }, body: {
+    'query': prompt
+  });
+  if (lan.statusCode == 200) {
+    var dataJson = jsonDecode(lan.body);
+    //만약 성공적으로 언어를 받아왔다면 language 변수에 언어가 저장됩니다. (ex: eu, ko, etc..)
+    var language = dataJson['langCode'];
+  } else {
+    print(lan.statusCode);
+  }
+}
+
+Future<void> getTranslation_papago() async {
+  String clientId = "XmTlLucY96Uw2pp4rj8q";
+  String clientSecret = "9r2hYCiRF5";
+  String contentType = "application/x-www-form-urlencoded; charset=UTF-8";
+  String url = "https://openapi.naver.com/v1/papago/n2mt";
+  await getLanguage_papago();
+
+  http.Response trans = await http.post(
+    Uri.parse(url),
+    headers: {
+      'Content-Type': contentType,
+      'X-Naver-Client-Id': clientId,
+      'X-Naver-Client-Secret': clientSecret
+    },
+    body: {
+      'source': language, //위에서 언어 판별 함수에서 사용한 language 변수
+      'target': "en", //원하는 언어를 선택할 수 있다.
+      'text': "번역할 내용",
+    },
+  );
+  if (trans.statusCode == 200) {
+    var dataJson = jsonDecode(trans.body);
+    var resultPapago = dataJson['message']['result']['translatedText'];
+  } else {
+    print(trans.statusCode);
   }
 }
