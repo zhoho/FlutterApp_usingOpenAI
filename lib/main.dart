@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'dart:convert';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:http/http.dart' as http;
@@ -134,10 +133,10 @@ class _GetQuestionState extends State<GetQuestion> {
             ),
             TextField(
               controller: _countryController,
-              inputFormatters: [
-                FilteringTextInputFormatter.allow(
-                  RegExp(r'[ㄱ-ㅎ|ㅏ-ㅣ|가-힣|ᆞ|ᆢ]'),
-                ),
+              inputFormatters: const [
+                // FilteringTextInputFormatter.allow(
+                //   RegExp(r'[ㄱ-ㅎ|ㅏ-ㅣ|가-힣|ᆞ|ᆢ]'),
+                // ),
               ],
               decoration: const InputDecoration(
                 hintText: '예) 일본, 파리',
@@ -150,10 +149,10 @@ class _GetQuestionState extends State<GetQuestion> {
             ),
             TextField(
               controller: _durationController,
-              inputFormatters: [
-                FilteringTextInputFormatter.allow(
-                  RegExp(r'[ㄱ-ㅎ|ㅏ-ㅣ|가-힣|ᆞ|ᆢ]'),
-                ),
+              inputFormatters: const [
+                // FilteringTextInputFormatter.allow(
+                //   RegExp(r'[ㄱ-ㅎ|ㅏ-ㅣ|가-힣|ᆞ|ᆢ]'),
+                // ),
               ],
               decoration: const InputDecoration(
                 hintText: '예) 7일, 2주',
@@ -166,10 +165,10 @@ class _GetQuestionState extends State<GetQuestion> {
             ),
             TextField(
               controller: _peopleController,
-              inputFormatters: [
-                FilteringTextInputFormatter.allow(
-                  RegExp(r'[ㄱ-ㅎ|ㅏ-ㅣ|가-힣|ᆞ|ᆢ]'),
-                ),
+              inputFormatters: const [
+                // FilteringTextInputFormatter.allow(
+                //   RegExp(r'[ㄱ-ㅎ|ㅏ-ㅣ|가-힣|ᆞ|ᆢ]'),
+                // ),
               ],
               decoration: const InputDecoration(
                 hintText: '예) 2명, 4인 가족',
@@ -182,10 +181,10 @@ class _GetQuestionState extends State<GetQuestion> {
             ),
             TextField(
               controller: _budgetController,
-              inputFormatters: [
-                FilteringTextInputFormatter.allow(
-                  RegExp(r'[ㄱ-ㅎ|ㅏ-ㅣ|가-힣|ᆞ|ᆢ]'),
-                ),
+              inputFormatters: const [
+                // FilteringTextInputFormatter.allow(
+                //   RegExp(r'[ㄱ-ㅎ|ㅏ-ㅣ|가-힣|ᆞ|ᆢ]'),
+                // ),
               ],
               decoration: const InputDecoration(
                 hintText: '예) 100만원',
@@ -253,8 +252,15 @@ class _GetQuestionState extends State<GetQuestion> {
                 String duration = _durationController.text;
                 String people = _peopleController.text;
                 String budget = _budgetController.text;
+                String travelStyle = _natureStyleSelected
+                    ? '자연'
+                    : _busyStyleSelected
+                        ? '바쁘게'
+                        : _funStyleSelected
+                            ? '재밌게'
+                            : '';
                 String prompt =
-                    "I'm going on a trip. You are my tour guide. The travel period I want to go is a total of $Period days. I want to go to $Destination. The following are the considerations. 1. I personally like $Concept 2. I will travel $Partner 3. My budget is $Budget Based on this, answer the following questions. Please recommend a schedule for each $DayorHour, indicate the cost of each activity, $Acommodation (Travel plans should be formulated in accordance with the budget as much as possible and should not exceed the budget.";
+                    "I'm going on a trip. You are my tour guide. The travel period I want to go is a total of $duration days. I want to go to $country. The following are the considerations. 1. I personally like Concept 2. I will travel Partner 3. My budget is budget Based on this, answer the following questions. Please recommend a schedule for each DayorHour, indicate the cost of each activity, Acommodation (Travel plans should be formulated in accordance with the budget as much as possible and should not exceed the budget.";
                 Navigator.of(context).push(
                   MaterialPageRoute(
                     builder: (context) => ResultPage(prompt),
@@ -289,8 +295,8 @@ Future<String> generateText(String prompt) async {
     },
     body: jsonEncode({
       //"model": "text-davinci-003",
-      'prompt': "한글로 말해봐 $prompt?",
-      'max_tokens': 200,
+      'prompt': prompt,
+      'max_tokens': 3000,
       'temperature': 0,
       'top_p': 1,
       // 'frequency_penalty': 0,
@@ -325,9 +331,11 @@ class _ResultPageState extends State<ResultPage> {
                 style: const TextStyle(color: Colors.black),
               );
             } else {
-              return Text(
-                '${snapshot.data}',
-                style: const TextStyle(color: Colors.black),
+              return SingleChildScrollView(
+                child: Text(
+                  '${snapshot.data}',
+                  style: const TextStyle(color: Colors.black),
+                ),
               );
             }
           },
