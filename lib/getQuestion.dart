@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:fun_ai/getResult.dart';
 import 'package:fun_ai/main.dart';
@@ -13,7 +12,7 @@ class GetQuestion extends StatefulWidget {
 class _GetQuestionState extends State<GetQuestion> {
   final TextEditingController _countryController = TextEditingController();
   final TextEditingController _durationController = TextEditingController();
-  final TextEditingController _peopleController = TextEditingController();
+  final TextEditingController _partnerController = TextEditingController();
   final TextEditingController _budgetController = TextEditingController();
 
   bool _natureStyleSelected = false;
@@ -67,7 +66,7 @@ class _GetQuestionState extends State<GetQuestion> {
               style: TextStyle(fontSize: 16),
             ),
             TextField(
-              controller: _peopleController,
+              controller: _partnerController,
               inputFormatters: const [
                 // FilteringTextInputFormatter.allow(
                 //   RegExp(r'[ㄱ-ㅎ|ㅏ-ㅣ|가-힣|ᆞ|ᆢ]'),
@@ -208,21 +207,21 @@ class _GetQuestionState extends State<GetQuestion> {
               onPressed: () {
                 String country = _countryController.text;
                 String duration = _durationController.text;
-                String people = _peopleController.text;
+                String partner = _partnerController.text;
                 String budget = _budgetController.text;
                 String travelStyle = "with lover";
-                String dayOrHour = "";
-                    ? '자연'
+                String dayOrHour = _natureStyleSelected
+                    ? '자연 / '
                     : _busyStyleSelected
-                        ? '바쁘게'
+                        ? '바쁘게 / '
                         : _funStyleSelected
-                            ? '재밌게'
+                            ? '재밌게 '
                             : '';
                 String acommodationContent = "";
                 String acommodation =
                     "and recommend accommodation for each day of the week.";
                 String prompt =
-                    "I'm going on a trip. You are my tour guide. The travel period I want to go is a total of $duration days. I want to go to $country. The following are the considerations. 1. I personally like $travelStyle 2. I will travel $Partner 3. My budget is $budget Based on this, answer the following questions. Please recommend a schedule for each Day or Hour, indicate the cost of each activity, $acommodation (Travel plans should be formulated in accordance with the budget as much as possible and should not exceed the budget.";
+                    "I'm going on a trip. You are my tour guide. The travel period I want to go is a total of $duration days. I want to go to $country. The following are the considerations. 1. I personally like $travelStyle 2. I will travel $partner 3. My budget is $budget Based on this, answer the following questions. Please recommend a schedule for each Day or Hour, indicate the cost of each activity, $acommodation (Travel plans should be formulated in accordance with the budget as much as possible and should not exceed the budget.";
                 Navigator.of(context).push(
                   MaterialPageRoute(
                     builder: (context) => ResultPage(prompt),

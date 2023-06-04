@@ -16,7 +16,7 @@ class _ResultPageState extends State<ResultPage> {
     return Scaffold(
       body: Center(
         child: FutureBuilder<String>(
-          future: getGPTanswer(widget.prompt),
+          future: getAnswer(widget.prompt),
           builder: (context, snapshot) {
             if (snapshot.connectionState == ConnectionState.waiting) {
               return const Center(child: CircularProgressIndicator());

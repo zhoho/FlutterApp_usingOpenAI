@@ -5,7 +5,7 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 final openaikey = dotenv.env['openaiapiKey'];
 const apiUrl = 'https://api.openai.com/v1/engines/text-davinci-003/completions';
 
-Future<String> getFinalAnser(String prompt) async {
+Future<String> getAnswer(String prompt) async {
   String translatedPrompt = await getTranslation_papago(prompt, 1);
   String gptAnswer = await getGPTanswer(translatedPrompt);
   String translatedGPTAnswer = await getTranslation_papago(gptAnswer, 2);
