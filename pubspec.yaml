@@ -49,6 +49,7 @@ dev_dependencies:
   intl: ^0.18.1
   path_provider: ^2.0.15
   flutter_dotenv: ^5.0.2
+  syncfusion_flutter_datepicker: ^21.2.8
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
