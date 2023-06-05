@@ -14,9 +14,10 @@ class _GetQuestionState extends State<GetQuestion> {
   final TextEditingController _peopleController = TextEditingController();
   final TextEditingController _budgetController = TextEditingController();
 
-  bool _natureStyleSelected = false;
-  bool _busyStyleSelected = false;
-  bool _funStyleSelected = false;
+  bool _activityStyleSelected = false;
+  bool _shoppingStyleSelected = false;
+  bool _foodStyleSelected = false;
+  bool _famousStyleSelected = false;
 
   bool _partnerSelected = false;
   bool _childSelected = false;
@@ -110,69 +111,73 @@ class _GetQuestionState extends State<GetQuestion> {
                   Row(
                     children: [
                       Checkbox(
-                        value: _natureStyleSelected,
+                        value: _activityStyleSelected,
                         onChanged: (value) {
                           setState(() {
-                            _natureStyleSelected = value ?? false;
-                            if (_natureStyleSelected) {
-                              _busyStyleSelected = false;
-                              _funStyleSelected = false;
+                            _activityStyleSelected = value ?? false;
+                            if (_activityStyleSelected) {
+                              _shoppingStyleSelected = false;
+                              _foodStyleSelected = false;
+                              _famousStyleSelected = false;
                             }
                           });
                         },
                       ),
-                      const Text('자연'),
+                      const Text('체험(엑티비티)'),
                     ],
                   ),
                   Row(
                     children: [
                       Checkbox(
-                        value: _busyStyleSelected,
+                        value: _shoppingStyleSelected,
                         onChanged: (value) {
                           setState(() {
-                            _busyStyleSelected = value ?? false;
-                            if (_busyStyleSelected) {
-                              _natureStyleSelected = false;
-                              _funStyleSelected = false;
+                            _shoppingStyleSelected = value ?? false;
+                            if (_shoppingStyleSelected) {
+                              _activityStyleSelected = false;
+                              _foodStyleSelected = false;
+                              _famousStyleSelected = false;
                             }
                           });
                         },
                       ),
-                      const Text('바쁘게'),
+                      const Text('쇼핑'),
                     ],
                   ),
                   Row(
                     children: [
                       Checkbox(
-                        value: _funStyleSelected,
+                        value: _foodStyleSelected,
                         onChanged: (value) {
                           setState(() {
-                            _funStyleSelected = value ?? false;
-                            if (_funStyleSelected) {
-                              _natureStyleSelected = false;
-                              _busyStyleSelected = false;
+                            _foodStyleSelected = value ?? false;
+                            if (_foodStyleSelected) {
+                              _activityStyleSelected = false;
+                              _shoppingStyleSelected = false;
+                              _famousStyleSelected = false;
                             }
                           });
                         },
                       ),
-                      const Text('재밌게'),
+                      const Text('음식'),
                     ],
                   ),
                   Row(
                     children: [
                       Checkbox(
-                        value: _funStyleSelected,
+                        value: _famousStyleSelected,
                         onChanged: (value) {
                           setState(() {
-                            _funStyleSelected = value ?? false;
-                            if (_funStyleSelected) {
-                              _natureStyleSelected = false;
-                              _busyStyleSelected = false;
+                            _famousStyleSelected = value ?? false;
+                            if (_famousStyleSelected) {
+                              _foodStyleSelected = false;
+                              _activityStyleSelected = false;
+                              _shoppingStyleSelected = false;
                             }
                           });
                         },
                       ),
-                      const Text('추가'),
+                      const Text('유명관광지'),
                     ],
                   ),
                 ],
@@ -298,13 +303,15 @@ class _GetQuestionState extends State<GetQuestion> {
                   String duration = _durationController.text;
                   String people = _peopleController.text;
                   String budget = _budgetController.text;
-                  String travelStyle = _natureStyleSelected
-                      ? '자연'
-                      : _busyStyleSelected
-                          ? '바쁘게'
-                          : _funStyleSelected
-                              ? '재밌게'
-                              : '';
+                  String travelStyle = _activityStyleSelected
+                      ? '체험 엑티비티 위주'
+                      : _shoppingStyleSelected
+                          ? '쇼핑 위주'
+                          : _foodStyleSelected
+                              ? '맛집 음식 위주'
+                              : _famousStyleSelected
+                                  ? '유명관광지 위주'
+                                  : '';
                   String partner = _partnerSelected
                       ? '연인과'
                       : _childSelected
