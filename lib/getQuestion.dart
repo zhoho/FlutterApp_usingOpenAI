@@ -81,7 +81,7 @@ class _GetQuestionState extends State<GetQuestion> {
                   // ),
                 ],
                 decoration: const InputDecoration(
-                  hintText: '예) 2명, 4인 가족',
+                  hintText: '예) 2 숫자만 입력',
                 ),
               ),
               const SizedBox(height: 16),
