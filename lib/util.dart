@@ -9,6 +9,10 @@ final openaikey = dotenv.env['openaiapiKey'];
 final naverId = dotenv.env['naverId'];
 final naverSecret = dotenv.env['naverSecret'];
 
+var url1 = Uri.parse(
+    "https://aipro-86874.web.app/https://openapi.naver.com/v1/papago/n2mt");
+var response = http.get(url1);
+
 const apiUrl = 'https://api.openai.com/v1/engines/text-davinci-003/completions';
 
 Future<String> getAnswer(String prompt) async {

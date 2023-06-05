@@ -22,7 +22,10 @@ class _GetQuestionState extends State<GetQuestion> {
   bool _childSelected = false;
   bool _familySelected = false;
   bool _aloneSelected = false;
+
   bool _isDaySelected = true;
+  bool _ishotelSelected = true;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -62,7 +65,7 @@ class _GetQuestionState extends State<GetQuestion> {
                   // ),
                 ],
                 decoration: const InputDecoration(
-                  hintText: '예) 7일, 2주',
+                  hintText: '예) 3 숫자만 입력',
                 ),
               ),
               const SizedBox(height: 16),
@@ -94,7 +97,7 @@ class _GetQuestionState extends State<GetQuestion> {
                   // ),
                 ],
                 decoration: const InputDecoration(
-                  hintText: '예) 100만원',
+                  hintText: '예) 1000000, 숫자만 입력',
                 ),
               ),
               const Text(
@@ -102,54 +105,76 @@ class _GetQuestionState extends State<GetQuestion> {
                 style: TextStyle(fontSize: 16),
               ),
               Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
-                  Checkbox(
-                    value: _natureStyleSelected,
-                    onChanged: (value) {
-                      setState(() {
-                        _natureStyleSelected = value ?? false;
-                        if (_natureStyleSelected) {
-                          _busyStyleSelected = false;
-                          _funStyleSelected = false;
-                        }
-                      });
-                    },
+                  Row(
+                    children: [
+                      Checkbox(
+                        value: _natureStyleSelected,
+                        onChanged: (value) {
+                          setState(() {
+                            _natureStyleSelected = value ?? false;
+                            if (_natureStyleSelected) {
+                              _busyStyleSelected = false;
+                              _funStyleSelected = false;
+                            }
+                          });
+                        },
+                      ),
+                      const Text('자연'),
+                    ],
                   ),
-                  const Text('자연'),
-                ],
-              ),
-              Row(
-                children: [
-                  Checkbox(
-                    value: _busyStyleSelected,
-                    onChanged: (value) {
-                      setState(() {
-                        _busyStyleSelected = value ?? false;
-                        if (_busyStyleSelected) {
-                          _natureStyleSelected = false;
-                          _funStyleSelected = false;
-                        }
-                      });
-                    },
+                  Row(
+                    children: [
+                      Checkbox(
+                        value: _busyStyleSelected,
+                        onChanged: (value) {
+                          setState(() {
+                            _busyStyleSelected = value ?? false;
+                            if (_busyStyleSelected) {
+                              _natureStyleSelected = false;
+                              _funStyleSelected = false;
+                            }
+                          });
+                        },
+                      ),
+                      const Text('바쁘게'),
+                    ],
                   ),
-                  const Text('바쁘게'),
-                ],
-              ),
-              Row(
-                children: [
-                  Checkbox(
-                    value: _funStyleSelected,
-                    onChanged: (value) {
-                      setState(() {
-                        _funStyleSelected = value ?? false;
-                        if (_funStyleSelected) {
-                          _natureStyleSelected = false;
-                          _busyStyleSelected = false;
-                        }
-                      });
-                    },
+                  Row(
+                    children: [
+                      Checkbox(
+                        value: _funStyleSelected,
+                        onChanged: (value) {
+                          setState(() {
+                            _funStyleSelected = value ?? false;
+                            if (_funStyleSelected) {
+                              _natureStyleSelected = false;
+                              _busyStyleSelected = false;
+                            }
+                          });
+                        },
+                      ),
+                      const Text('재밌게'),
+                    ],
                   ),
-                  const Text('재밌게'),
+                  Row(
+                    children: [
+                      Checkbox(
+                        value: _funStyleSelected,
+                        onChanged: (value) {
+                          setState(() {
+                            _funStyleSelected = value ?? false;
+                            if (_funStyleSelected) {
+                              _natureStyleSelected = false;
+                              _busyStyleSelected = false;
+                            }
+                          });
+                        },
+                      ),
+                      const Text('추가'),
+                    ],
+                  ),
                 ],
               ),
               const Text(
@@ -229,6 +254,43 @@ class _GetQuestionState extends State<GetQuestion> {
                   ),
                 ],
               ),
+              const Text(
+                "숙소도 추천해드릴까요?",
+                style: TextStyle(fontSize: 16),
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Row(
+                    children: [
+                      Radio(
+                        value: true,
+                        groupValue: _ishotelSelected,
+                        onChanged: (value) {
+                          setState(() {
+                            _ishotelSelected = value as bool;
+                          });
+                        },
+                      ),
+                      const Text('숙소 포함'),
+                    ],
+                  ),
+                  Row(
+                    children: [
+                      Radio(
+                        value: false,
+                        groupValue: _ishotelSelected,
+                        onChanged: (value) {
+                          setState(() {
+                            _ishotelSelected = value as bool;
+                          });
+                        },
+                      ),
+                      const Text('숙소 미포함'),
+                    ],
+                  ),
+                ],
+              ),
               const SizedBox(height: 24),
               ElevatedButton(
                 onPressed: () {
@@ -252,8 +314,14 @@ class _GetQuestionState extends State<GetQuestion> {
                               : _aloneSelected
                                   ? '혼자'
                                   : '';
+                  String isDaySelected =
+                      _isDaySelected ? "on a daily" : "on a time";
+
+                  String acommodation = _ishotelSelected
+                      ? 'Please recommend the accommodation according to the price'
+                      : '';
                   String prompt =
-                      "I'm going on a trip. You are my tour guide. The travel period I want to go is a total of $duration days. I want to go to $country. The following are the considerations. 1. I personally like $travelStyle 2. I will travel $partner 3. My budget is $budget won Based on this, answer the following questions. Please recommend a schedule for each $_isDaySelected, indicate the cost of each activity, Acommodation (Travel plans should be formulated in accordance with the budget as much as possible and should not exceed the budget.";
+                      "I'm going on a trip. You are my tour guide. The travel period I want to go is a total of $duration days. And I total meber is $people I want to go to $country. The following are the considerations. 1. I personally like $travelStyle 2. I will travel $partner 3. My budget is $budget won Based on this, answer the following questions. Please recommend a schedule for each $isDaySelected, indicate the cost of each activity, $acommodation (Travel plans should be formulated in accordance with the budget as much as possible should not exceed the budget)";
                   Navigator.of(context).push(
                     MaterialPageRoute(
                       builder: (context) => ResultPage(prompt),
