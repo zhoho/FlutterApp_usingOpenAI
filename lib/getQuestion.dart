@@ -328,7 +328,8 @@ class _GetQuestionState extends State<GetQuestion> {
                       ? 'Please recommend the accommodation according to the price'
                       : '';
                   String prompt =
-                      "I'm going on a trip. You are my tour guide. The travel period I want to go is a total of $duration days. And I total meber is $people I want to go to $country. The following are the considerations. 1. I personally like $travelStyle 2. I will travel $partner 3. My budget is $budget won Based on this, answer the following questions. Please recommend a schedule for each $isDaySelected, indicate the cost of each activity, $acommodation (Travel plans should be formulated in accordance with the budget as much as possible should not exceed the budget)";
+                      "I'm going on a trip. You are my tour guide. The travel period I want to go is a total of $duration days. And I total meber is $people I want to go to $country. The following are the considerations. 1. I personally like $travelStyle 2. I will travel $partner 3. My budget is $budget won Based on this, answer the following questions. Please recommend a schedule for each $isDaySelected, indicate the cost of each activity, $acommodation (Travel plans should be formulated in accordance with the budget as much as possible should not exceed the budget) 그리고 이 답변을 여행계획표 처럼 잘 정리해서 중복 답변 없이 한글로 보여줘 ";
+                  print(prompt);
                   Navigator.of(context).push(
                     MaterialPageRoute(
                       builder: (context) => ResultPage(prompt),
