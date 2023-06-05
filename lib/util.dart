@@ -6,6 +6,9 @@ import 'package:dio/dio.dart';
 final dio = Dio();
 
 final openaikey = dotenv.env['openaiapiKey'];
+final naverId = dotenv.env['naverId'];
+final naverSecret = dotenv.env['naverSecret'];
+
 const apiUrl = 'https://api.openai.com/v1/engines/text-davinci-003/completions';
 
 Future<String> getAnswer(String prompt) async {
@@ -27,7 +30,7 @@ Future<String> getGPTanswer(String prompt) async {
     body: jsonEncode({
       //"model": "text-davinci-003",
       'prompt': prompt,
-      'max_tokens': 5000,
+      'max_tokens': 3000,
       'temperature': 0,
       'top_p': 1,
       // 'frequency_penalty': 0,
@@ -47,8 +50,8 @@ Future<String> getGPTanswer(String prompt) async {
 }
 
 Future<String> getTranslation_papago(String prompt, int option) async {
-  String clientId = "XmTlLucY96Uw2pp4rj8q";
-  String clientSecret = "9r2hYCiRF5";
+  String clientId = '$naverId';
+  String clientSecret = '$naverSecret';
   String contentType = "application/x-www-form-urlencoded; charset=UTF-8";
   String url = "https://openapi.naver.com/v1/papago/n2mt";
 
