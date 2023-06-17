@@ -1,11 +1,10 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
-import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:dio/dio.dart';
 
 final dio = Dio();
 
-const openaikey = "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";
+const openaikey = "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";
 // final naverId = dotenv.env['naverId'];
 // final naverSecret = dotenv.env['naverSecret'];
 
