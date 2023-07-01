@@ -5,8 +5,6 @@ import 'package:dio/dio.dart';
 final dio = Dio();
 
 const openaikey = "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";
-// final naverId = dotenv.env['naverId'];
-// final naverSecret = dotenv.env['naverSecret'];
 
 var url1 = Uri.parse(
     "https://aipro-86874.web.app/https://openapi.naver.com/v1/papago/n2mt");
@@ -15,9 +13,6 @@ var response = http.get(url1);
 const apiUrl = 'https://api.openai.com/v1/engines/text-davinci-003/completions';
 
 Future<String> getAnswer(String prompt) async {
-  // String translatedPrompt = await getTranslation_papago(prompt, 1);
-  // String gptAnswer = await getGPTanswer(translatedPrompt);
-  // String translatedGPTAnswer = await getTranslation_papago(gptAnswer, 2);
   String gptanswer = await getGPTanswer(prompt);
   return gptanswer;
 }
@@ -52,34 +47,3 @@ Future<String> getGPTanswer(String prompt) async {
 
   return generatedText;
 }
-
-// Future<String> getTranslation_papago(String prompt, int option) async {
-//   String clientId = '$naverId';
-//   String clientSecret = '$naverSecret';
-//   String contentType = "application/x-www-form-urlencoded; charset=UTF-8";
-//   String url = "https://openapi.naver.com/v1/papago/n2mt";
-
-//   http.Response trans = await http.post(
-//     Uri.parse(url),
-//     headers: {
-//       'Content-Type': contentType,
-//       'X-Naver-Client-Id': clientId,
-//       'X-Naver-Client-Secret': clientSecret,
-//       'Access-Control-Allow-Origin': '*', // CORS 허용
-//     },
-//     body: {
-//       'source': option == 1 ? "ko" : "en", //위에서 언어 판별 함수에서 사용한 language 변수
-//       'target': option == 1 ? "en" : "ko", //원하는 언어를 선택할 수 있다.
-//       'text': prompt,
-//     },
-//   );
-//   if (trans.statusCode == 200) {
-//     var dataJson = jsonDecode(trans.body);
-//     var resultPapago = dataJson['message']['result']['translatedText'];
-//     print(resultPapago);
-//     return resultPapago;
-//   } else {
-//     print(trans.statusCode);
-//     return "fail to get papago result. trans.statusCode : ${trans.statusCode}";
-//   }
-// }
